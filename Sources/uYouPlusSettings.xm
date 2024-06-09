@@ -201,16 +201,16 @@ extern NSBundle *uYouPlusBundle();
         selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger arg1) {
             if (IS_ENABLED(@"replaceCopyandPasteButtons_enabled")) {
                 // Export Settings functionality
-                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                NSMutableString *settingsString = [NSMutableString string];
+                NSURL *tempFileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:@"exported_settings.txt"]];
+                NSMutableString *settingsString = [NSMutableNSMutableString string];
                 for (NSString *key in copyKeys) {
-                    if ([userDefaults objectForKey:key]) {
-                        NSString *value = [userDefaults objectForKey:key];
+                    id value = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+                    if (value) {
                         [settingsString appendFormat:@"%@: %@\n", key, value];
                     }
                 }
-            if (settingsString.length > 0) {
-                UIDocumentPickerViewController *documentPicker = [[UIDocumentPickerViewController alloc] initWithDocumentTypes:@[@"public.text"] inMode:UIDocumentPickerModeExportToService];
+                [settingsString writeToURL:tempFileURL atomically:YES encoding:NSUTF8StringEncoding error:nil];
+                UIDocumentPickerViewController *documentPicker = [[UIDocumentPickerViewController alloc] initWithURL:tempFileURL inMode:UIDocumentPickerModeExportToService];
                 documentPicker.delegate = (id<UIDocumentPickerDelegate>)self;
                 documentPicker.allowsMultipleSelection = NO;
                 [UIApplication.sharedApplication.keyWindow.rootViewController presentViewController:documentPicker animated:YES completion:nil];
