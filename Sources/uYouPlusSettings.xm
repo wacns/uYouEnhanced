@@ -1397,7 +1397,8 @@ extern NSBundle *uYouPlusBundle();
 // File Manager (Paste Settings)
 - (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls {
     if (urls.count > 0) {
-        NSString *fileContents = [NSString stringWithContentsOfURL:urls.firstObject encoding:NSUTF8StringEncoding error:nil];
+        NSURL *fileURL = urls.firstObject;
+        NSString *fileContents = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:nil];
         NSArray *lines = [fileContents componentsSeparatedByString:@"\n"];
         for (NSString *line in lines) {
             NSArray *components = [line componentsSeparatedByString:@": "];
@@ -1407,6 +1408,8 @@ extern NSBundle *uYouPlusBundle();
                 [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
             }
         }
+        [settingsViewController reloadData];
+        SHOW_RELAUNCH_YT_SNACKBAR;
     }
 }
 
