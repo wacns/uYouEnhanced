@@ -114,11 +114,19 @@
     }
 
     NSString *iconName = self.appIcons[self.selectedIconIndex];
-    
-    UIImage *iconImage = [UIImage imageNamed:iconName];
+
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"uYouPlus" ofType:@"bundle"];
+    NSBundle *bundle = [NSBundle bundleWithPath:path];
+    NSString *imagePath = [bundle pathForResource:iconName ofType:@"png"];
+    UIImage *iconImage = [UIImage imageWithContentsOfFile:imagePath];
+
+    if (!iconImage) {
+        NSLog(@"Failed to load custom icon image");
+        return;
+    }
+
     UIImage *roundedIconImage = [self createRoundedImage:iconImage size:CGSizeMake(120, 120)]; // Adjust size as needed
-    
-    // Save the image to the main app bundle
+
     NSData *imageData = UIImagePNGRepresentation(roundedIconImage);
     NSString *newIconPath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@_custom", iconName] ofType:@"png"];
     [imageData writeToFile:newIconPath atomically:YES];
