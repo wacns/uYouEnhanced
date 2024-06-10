@@ -261,10 +261,10 @@ extern NSBundle *uYouPlusBundle();
                                 NSString *key = components[0];
                                 NSString *value = components[1];
                                 [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
-                            }
                         }
-                        [settingsViewController reloadData];
-                        SHOW_RELAUNCH_YT_SNACKBAR;
+                    }                 
+                    [settingsViewController reloadData];
+                    SHOW_RELAUNCH_YT_SNACKBAR;
                     }
                 }];
                 [settingsViewController presentViewController:confirmPasteAlert animated:YES completion:nil];
