@@ -214,8 +214,6 @@ extern NSBundle *uYouPlusBundle();
                 documentPicker.delegate = (id<UIDocumentPickerDelegate>)self;
                 documentPicker.allowsMultipleSelection = NO;
                 [UIApplication.sharedApplication.keyWindow.rootViewController presentViewController:documentPicker animated:YES completion:nil];
-            }
-            return YES;
             } else {
                 // Copy Settings functionality (default behavior)
                 NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -261,10 +259,10 @@ extern NSBundle *uYouPlusBundle();
                                 NSString *key = components[0];
                                 NSString *value = components[1];
                                 [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
-                        }
-                    }                 
-                    [settingsViewController reloadData];
-                    SHOW_RELAUNCH_YT_SNACKBAR;
+                            }
+                        }                 
+                        [settingsViewController reloadData];
+                        SHOW_RELAUNCH_YT_SNACKBAR;
                     }
                 }];
                 [settingsViewController presentViewController:confirmPasteAlert animated:YES completion:nil];
@@ -294,7 +292,7 @@ extern NSBundle *uYouPlusBundle();
     # pragma mark - uYouEnhanced Essential Menu
     YTSettingsSectionItem *customAppMenu = [%c(YTSettingsSectionItem)
         itemWithTitle:LOC(@"UYOUENHANCED_ESSENTIAL_MENU")
-        titleDescription:LOC(@"This menu includes App Color Customization & Ability to Clear the Cache 🗑️")
+        titleDescription:LOC(@"This menu includes App Color Customization 🎨 & Ability to Clear the Cache 🗑️")
         accessibilityIdentifier:nil
         detailTextBlock:nil
         selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger arg1) {
@@ -529,7 +527,7 @@ extern NSBundle *uYouPlusBundle();
     # pragma mark - Video player button options
     SECTION_HEADER(LOC(@"VIDEO_PLAYER_BUTTON_OPTIONS"));
 
-// (the options "Red Subscribe Button" and "Hide Button Containers under player" are currently not working)
+// (the options "Red Subscribe Button" and "Hide Button Containers under player" are currently not working, would most likely result in effecting the whole entire app.)
 //
 //  SWITCH_ITEM(LOC(@"RED_SUBSCRIBE_BUTTON"), LOC(@"RED_SUBSCRIBE_BUTTON_DESC"), @"redSubscribeButton_enabled");
 //  SWITCH_ITEM2(LOC(@"HIDE_BUTTON_CONTAINERS_UNDER_PLAYER"), LOC(@"HIDE_BUTTON_CONTAINERS_UNDER_PLAYER_DESC"), @"hideButtonContainers_enabled");
