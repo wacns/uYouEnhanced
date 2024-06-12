@@ -25,10 +25,18 @@
     [self.view addSubview:self.tableView];
 
     self.appIconFolders = @[@"2013", @"2017_Gold", @"Gold", @"Shorts", @"White", @"YTLitePlus", @"Blue", @"Outline", @"2012", @"2007", @"Black", @"Oreo", @"uYou", @"2012_Cyan", @"uYouPlus"];
+    
+    UIColor *buttonColor = [UIColor colorWithRed:203.0/255.0 green:22.0/255.0 blue:51.0/255.0 alpha:1.0];
+    UIImage *resetImage = [UIImage systemImageNamed:@"arrow.clockwise.circle.fill"];
+    UIBarButtonItem *resetButton = [[UIBarButtonItem alloc] initWithImage:resetImage style:UIBarButtonItemStylePlain target:self action:@selector(resetIcon)];
+    resetButton.tintColor = buttonColor;
+    
+    UIImage *saveImage = [UIImage systemImageNamed:@"square.and.arrow.up.fill"];
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithImage:saveImage style:UIBarButtonItemStylePlain target:self action:@selector(saveIcon)];
+    saveButton.tintColor = buttonColor;
 
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[self createBackImage] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
-    
-    self.navigationItem.rightBarButtonItems = @[[self createBarButtonItemWithSystemImage:@"arrow.clockwise.circle.fill" action:@selector(resetIcon)], [self createBarButtonItemWithSystemImage:@"square.and.arrow.up.fill" action:@selector(saveIcon)];
+    self.navigationItem.rightBarButtonItems = @[saveButton, resetButton];
 
     NSString *path = [[NSBundle mainBundle] pathForResource:@"AppIcons" ofType:@"bundle"];
     NSBundle *bundle = [NSBundle bundleWithPath:path];
@@ -119,18 +127,17 @@
 }
 
 - (UIImage *)appIconPreviewForFolder:(NSString *)folder {
-    NSString *icon2xPath = [folder stringByAppendingPathComponent:@"@2.png"];
-    NSString *icon3xPath = [folder stringByAppendingPathComponent:@"@3.png"];
+    NSString *iconPreviewPath = [folder stringByAppendingPathComponent:@"@2.png"];
 
-    UIImage *icon2xImage = [UIImage imageNamed:icon2xPath];
-    UIImage *roundedIconImage = [self createRoundedImage:icon2xImage size:CGSizeMake(120, 120)];
+    UIImage *iconPreviewImage = [UIImage imageNamed:iconPreviewPath];
+    UIImage *roundedIconImage = [self createRoundedImage:iconPreviewImage size:CGSizeMake(120, 120)];
 
     return roundedIconImage;
 }
 
 - (UIImage *)createRoundedImage:(UIImage *)image size:(CGSize)size {
     UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
-    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, size.width, size.height) cornerRadius:size.width * 0.1]; // Adjust the corner radius as needed
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, size.width, size.height) cornerRadius:size.width * 0.1];
     [path addClip];
     [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
     UIImage *roundedImage = UIGraphicsGetImageFromCurrentImageContext();
