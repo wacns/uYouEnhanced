@@ -802,13 +802,13 @@ static int contrastMode() {
     if ([self fullscreen] && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         return UIInterfaceOrientationLandscapeRight;
     }
-    return [super preferredInterfaceOrientationForPresentation];
+    return %orig;
 }
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     if ([self fullscreen] && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         return UIInterfaceOrientationMaskLandscape;
     }
-    return [super supportedInterfaceOrientations];
+    return %orig;
 }
 %new
 - (void)forceRightFullscreenOrientation {
