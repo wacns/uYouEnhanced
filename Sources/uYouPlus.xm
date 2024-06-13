@@ -795,6 +795,31 @@ static int contrastMode() {
 %end
 %end
 
+// Fullscreen to the Right - @arichornlover
+%group gFullscreenToTheRight
+%hook YTWatchViewController
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    if ([self fullscreen] && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        return UIInterfaceOrientationLandscapeRight;
+    }
+    return [super preferredInterfaceOrientationForPresentation];
+}
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    if ([self fullscreen] && UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        return UIInterfaceOrientationMaskLandscape;
+    }
+    return [super supportedInterfaceOrientations];
+}
+%new
+- (void)forceRightFullscreenOrientation {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        NSNumber *value = [NSNumber numberWithInt:UIInterfaceOrientationLandscapeRight];
+        [[UIDevice currentDevice] setValue:value forKey:@"orientation"];
+    }
+}
+%end
+%end
+
 // Disable Double tap to skip chapter - @bhackel
 %hook YTDoubleTapToSeekController
 - (void)didTwoFingerDoubleTap:(id)arg1 {
@@ -1632,6 +1657,9 @@ static BOOL findCell(ASNodeController *nodeController, NSArray <NSString *> *ide
     }
     if (IS_ENABLED(@"portraitFullscreen_enabled")) {
         %init(gPortraitFullscreen);
+    }
+    if (IS_ENABLED(@"fullscreenToTheRight_enabled")) {
+        %init(gFullscreenToTheRight);
     }
     if (IS_ENABLED(@"hideFullscreenActions_enabled")) {
         %init(hideFullscreenActions);
