@@ -231,7 +231,6 @@ NSData *cellDividerData;
 %end
 %end
 
-
 // Fix App Group Directory by move it to document directory
 %hook NSFileManager
 - (NSURL *)containerURLForSecurityApplicationGroupIdentifier:(NSString *)groupIdentifier {
@@ -332,6 +331,19 @@ NSData *cellDividerData;
 - (int)availabilityType { return 1; }
 %new
 - (BOOL)savedSettingShouldExpire { return NO; }
+%end
+
+// Restore Settings Button in Navigaton Bar - @arichornlover & @bhackel - https://github.com/arichornlover/uYouEnhanced/issues/178
+%hook YTRightNavigationButtons
+- (id)visibleButtons {
+    Class YTVersionUtilsClass = %c(YTVersionUtils);
+    NSString *appVersion = [YTVersionUtilsClass performSelector:@selector(appVersion)];
+    NSComparisonResult result = [appVersion compare:@"18.35.4" options:NSNumericSearch];
+    if (result == NSOrderedAscending) {
+        return %orig;
+    }
+    return [self dynamicButtons];
+}
 %end
 
 // Hide "Get Youtube Premium" in "You" tab - @bhackel
