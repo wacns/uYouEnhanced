@@ -89,12 +89,28 @@
 - (UIImage *)appIconPreviewForIconName:(NSString *)iconName {
     NSDictionary *iconData = self.alternateIcons[iconName];
     NSArray *iconFiles = iconData[@"CFBundleIconFiles"];
-    NSString iconFile = iconFiles[0];
+    NSString *iconFile = iconFiles[0];
 
     UIImage *iconImage = [UIImage imageNamed:iconFile];
     UIImage *roundedIconImage = [self createRoundedImage:iconImage size:CGSizeMake(120, 120)];
 
     return roundedIconImage;
+}
+
+- (UIImage *)createRoundedImage:(UIImage *)image size:(CGSize)size {
+    UIGraphicsImageRenderer *renderer = [[UIGraphicsImageRenderer alloc] initWithSize:size];
+    return [renderer imageWithActions:^(UIGraphicsImageRendererContext *context) {
+        UIBezierPath *roundPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, size.width, size.height) cornerRadius:size.width / 2.0];
+        [roundPath addClip];
+        [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    }];
+}
+
+- (UIImage *)resizeImage:(UIImage *)image newSize:(CGSize)newSize {
+    UIGraphicsImageRenderer *renderer = [[UIGraphicsImageRenderer alloc] initWithSize:newSize];
+    return [renderer imageWithActions:^(UIGraphicsImageRendererContext *context) {
+        [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    }];
 }
 
 - (void)showAlertWithTitle:(NSString *)title message:(NSString *)message {
