@@ -196,10 +196,14 @@
 // Buttons
 @interface YTRightNavigationButtons : UIView
 - (id)_viewControllerForAncestor;
-@property(readonly, nonatomic) YTQTMButton *searchButton;
-@property(readonly, nonatomic) YTQTMButton *notificationButton;
-@property(strong, nonatomic) YTQTMButton *sponsorBlockButton;
-@property(strong, nonatomic) YTQTMButton *uYouPlusButton;
+@property (readonly, nonatomic) NSArray *dynamicButtons;
+@property (readonly, nonatomic) NSArray *visibleButtons;
+@property (readonly, nonatomic) NSArray *buttons;
+@property (readonly, nonatomic) YTQTMButton *searchButton;
+@property (readonly, nonatomic) YTQTMButton *notificationButton;
+@property (strong, nonatomic) YTQTMButton *sponsorBlockButton;
+@property (strong, nonatomic) YTQTMButton *uYouPlusButton;
+- (void)setDynamicButtons:(NSArray *)buttons;
 - (void)setLeadingPadding:(CGFloat)arg1;
 - (void)uYouPlusRootOptionsAction;
 @end
