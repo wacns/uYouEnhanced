@@ -1411,19 +1411,24 @@ extern NSBundle *uYouPlusBundle();
         [settingsViewController setSectionItems:sectionItems forCategory:uYouPlusSection title:@"uYouEnhanced" titleDescription:LOC(@"TITLE DESCRIPTION") headerHidden:YES];
 }
 
-// File Manager (Paste Settings)
+// File Manager (Import Settings .txt)
 - (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentsAtURLs:(NSArray<NSURL *> *)urls {
     if (urls.count > 0) {
         NSURL *fileURL = urls.firstObject;
         NSString *fileContents = [NSString stringWithContentsOfURL:fileURL encoding:NSUTF8StringEncoding error:nil];
-        NSArray *lines = [fileContents componentsSeparatedByString:@"\n"];
-        for (NSString *line in lines) {
-            NSArray *components = [line componentsSeparatedByString:@": "];
-            if (components.count == 2) {
-                NSString *key = components[0];
-                NSString *value = components[1];
-                [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
+        if (fileContents.length > 0) {
+            NSArray *lines = [fileContents componentsSeparatedByString:@"\n"];
+            for (NSString *line in lines) {
+                NSArray *components = [line componentsSeparatedByString:@": "];
+                if (components.count == 2) {
+                    NSString *key = components[0];
+                    NSString *value = components[1];
+                    [[NSUserDefaults standardUserDefaults] setObject:value forKey:key];
+                }
             }
+            YTSettingsViewController *settingsViewController = [self valueForKey:@"_settingsViewControllerDelegate"];
+            [settingsViewController reloadData];
+            SHOW_RELAUNCH_YT_SNACKBAR;
         }
     }
 }
