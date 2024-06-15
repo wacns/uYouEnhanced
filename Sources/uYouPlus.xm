@@ -1599,7 +1599,7 @@ static BOOL findCell(ASNodeController *nodeController, NSArray <NSString *> *ide
 %end
 %hook UIKBTree
 - (long long)nativeIdiom {
-    return NO;
+    return YES;
 } 
 %end
 %hook UIKBRenderer
