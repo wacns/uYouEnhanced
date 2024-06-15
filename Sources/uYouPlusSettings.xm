@@ -1428,7 +1428,6 @@ extern NSBundle *uYouPlusBundle();
             }
             YTSettingsViewController *settingsViewController = [self valueForKey:@"_settingsViewControllerDelegate"];
             [settingsViewController reloadData];
-            SHOW_RELAUNCH_YT_SNACKBAR;
         }
     }
 }
