@@ -1,7 +1,8 @@
 #import <UIKit/UIKit.h>
 
-@interface AppIconOptionsController : UIViewController
+@interface AppIconOptionsController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) UIButton *backButton;
 
 @end
