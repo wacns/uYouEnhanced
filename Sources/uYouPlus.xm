@@ -86,6 +86,12 @@ NSBundle *tweakBundle = uYouPlusBundle();
     NSMutableArray *retVal = %orig.mutableCopy;
     [self setLeadingPadding:+10];
     if (self.settingsButton) {
+        if ([YTSessionRenderer respondsToSelector:@selector(sessionRenderer)]) {
+            YTSessionRenderer *sessionRenderer = [YTSessionRenderer sessionRenderer];
+            if ([sessionRenderer.pivots containsObject:@"FElibrary"]) { // Exclude Button from Library/You Tab (reason: it would be a duplicated button)
+                return retVal;
+            }
+        }
         [self.settingsButton removeFromSuperview];
         [self addSubview:self.settingsButton];
         [retVal insertObject:self.settingsButton atIndex:0];
@@ -94,12 +100,9 @@ NSBundle *tweakBundle = uYouPlusBundle();
 }
 %new;
 - (void)settingsAction {
-    SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    UINavigationController *settingsViewControllerView = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
-    settingsViewControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
-
     UIViewController *settingsViewController = [self _viewControllerForAncestor];
-    [settingsViewController presentViewController:settingsViewControllerView animated:YES completion:nil];
+    SettingsViewController *settingsVC = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    [settingsViewController presentViewController:settingsVC animated:YES completion:nil]
 }
 %end
 
