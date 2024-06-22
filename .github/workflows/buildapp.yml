@@ -8,7 +8,7 @@ on:
     inputs:
       sdk_version:
         description: "iOS SDK Version"
-        default: "16.4"
+        default: "18.0"
         required: true
         type: string
       uyou_version:
