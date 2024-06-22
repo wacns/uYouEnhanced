@@ -1370,31 +1370,24 @@ static BOOL findCell(ASNodeController *nodeController, NSArray <NSString *> *ide
 - (CGSize)sizeForElement:(ASCollectionElement *)element {
     if ([self.accessibilityIdentifier isEqualToString:@"id.video.scrollable_action_bar"]) {
         ASCellNode *node = [element node];
-        ASNodeController *nodeController = [node controller];
-        if (IS_ENABLED(@"hideShareButton_enabled") && findCell(nodeController, @[@"id.video.share.button"])) {
-            return CGSizeZero;
-        }
-
-        if (IS_ENABLED(@"hideRemixButton_enabled") && findCell(nodeController, @[@"id.video.remix.button"])) {
-            return CGSizeZero;
-        }
-
-        if (IS_ENABLED(@"hideThanksButton_enabled") && findCell(nodeController, @[@"Thanks"])) {
-            return CGSizeZero;
-        }
-
-        if (IS_ENABLED(@"hideClipButton_enabled") && findCell(nodeController, @[@"clip_button.eml"])) {
-            return CGSizeZero;
-        }
-
-        if (IS_ENABLED(@"hideDownloadButton_enabled") && findCell(nodeController, @[@"id.ui.add_to.offline.button"])) {
-            return CGSizeZero;
-        }
-
-        if (IS_ENABLED(@"hideCommentSection_enabled") && findCell(nodeController, @[@"id.ui.carousel_header"])) {
-            return CGSizeZero;
+        for (UIView *subview in node.view.subviews) {
+            if ([subview isKindOfClass:[UIButton class]]) {
+                UIButton *button = (UIButton *)subview;
+                if ([button.accessibilityIdentifier isEqualToString:@"id.video.share.button"] && IS_ENABLED(@"hideShareButton_enabled")) {
+                    subview.hidden = YES;
+                } else if ([button.accessibilityIdentifier isEqualToString:@"id.video.remix.button"] && IS_ENABLED(@"hideRemixButton_enabled")) {
+                    subview.hidden = YES;
+                } else if ([button.accessibilityIdentifier isEqualToString:@"Thanks"] && IS_ENABLED(@"hideThanksButton_enabled")) {
+                    subview.hidden = YES;
+                } else if ([button.accessibilityIdentifier isEqualToString:@"clip_button.eml"] && IS_ENABLED(@"hideClipButton_enabled")) {
+                    subview.hidden = YES;
+                } else if ([button.accessibilityIdentifier isEqualToString:@"id.ui.add_to.offline.button"] && IS_ENABLED(@"hideDownloadButton_enabled")) {
+                    subview.hidden = YES;
+                }
+            }
         }
     }
+    
     return %orig;
 }
 
