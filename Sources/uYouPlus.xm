@@ -76,8 +76,7 @@ NSBundle *tweakBundle = uYouPlusBundle();
         self.settingsButton = [%c(YTQTMButton) iconButton];
         self.settingsButton.frame = CGRectMake(0, 0, 24, 24);
         [self.settingsButton setImage:[UIImage imageNamed:@"yt_outline_gear_24pt"] forState:UIControlStateNormal];
-        [self.settingsButton addTarget:self action:@selector(settingsAction) forControlEvents:UIControlEventTouchUpInside];
-        
+        [self.settingsButton addTarget:self action:@selector(settingsAction) forControlEvents:UIControlEventTouchUpInside];  
         [retVal insertObject:self.settingsButton atIndex:0];
     }  
     return retVal;
@@ -85,7 +84,6 @@ NSBundle *tweakBundle = uYouPlusBundle();
 - (NSMutableArray *)visibleButtons {
     NSMutableArray *retVal = %orig.mutableCopy;
     [self setLeadingPadding:+10];
-    
     if (self.settingsButton) {
         [self.settingsButton removeFromSuperview];
         [self addSubview:self.settingsButton];
@@ -95,8 +93,12 @@ NSBundle *tweakBundle = uYouPlusBundle();
 }
 %new;
 - (void)settingsAction {
-    UIViewController *settingsViewController = [[[YTSettingsViewController alloc] init] autorelease];
-    [[[UIApplication sharedApplication] keyWindow].rootViewController presentViewController:settingsViewController animated:YES completion:nil];
+    SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    UINavigationController *settingsViewControllerView = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
+    settingsViewControllerView.modalPresentationStyle = UIModalPresentationFullScreen;
+
+    UIViewController *settingsViewController = [self _viewControllerForAncestor];
+    [settingsViewController presentViewController:settingsViewControllerView animated:YES completion:nil];
 }
 %end
 
