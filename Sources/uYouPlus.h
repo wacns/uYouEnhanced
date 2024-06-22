@@ -202,10 +202,10 @@
 @property (readonly, nonatomic) YTQTMButton *searchButton;
 @property (readonly, nonatomic) YTQTMButton *notificationButton;
 @property (strong, nonatomic) YTQTMButton *sponsorBlockButton;
-@property (strong, nonatomic) YTQTMButton *uYouPlusButton;
+@property (strong, nonatomic) YTQTMButton *settingsButton;
 - (void)setDynamicButtons:(NSArray *)buttons;
 - (void)setLeadingPadding:(CGFloat)arg1;
-- (void)uYouPlusRootOptionsAction;
+- (void)settingsAction;
 @end
 
 @interface YTISlimMetadataButtonSupportedRenderers : NSObject
