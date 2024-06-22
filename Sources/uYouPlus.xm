@@ -64,6 +64,7 @@ NSBundle *tweakBundle = uYouPlusBundle();
 %hook YTRightNavigationButtons
 %property (retain, nonatomic) YTQTMButton *settingsButton;
 - (NSMutableArray *)buttons {
+    Class YTVersionUtilsClass = %c(YTVersionUtils);
     NSString *appVersion = [YTVersionUtilsClass performSelector:@selector(appVersion)];
     NSComparisonResult versionCheck = [appVersion compare:@"18.35.4" options:NSNumericSearch];
     if (versionCheck == NSOrderedAscending) {
