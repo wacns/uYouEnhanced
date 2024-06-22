@@ -60,6 +60,46 @@ NSBundle *tweakBundle = uYouPlusBundle();
 }
 %end
 
+// Restore Settings Button - v18.35.4+ - @arichornlover
+%hook YTRightNavigationButtons
+%property (retain, nonatomic) YTQTMButton *settingsButton;
+- (NSMutableArray *)buttons {
+    NSString *appVersion = [YTVersionUtilsClass performSelector:@selector(appVersion)];
+    NSComparisonResult versionCheck = [appVersion compare:@"18.35.4" options:NSNumericSearch];
+    if (versionCheck == NSOrderedAscending) {
+        return %orig;
+    }
+    NSMutableArray *retVal = %orig.mutableCopy;   
+    [self.settingsButton removeFromSuperview];
+    [self addSubview:self.settingsButton];
+    if (!self.settingsButton) {
+        self.settingsButton = [%c(YTQTMButton) iconButton];
+        self.settingsButton.frame = CGRectMake(0, 0, 24, 24);
+        [self.settingsButton setImage:[UIImage imageNamed:@"yt_outline_gear_24pt"] forState:UIControlStateNormal];
+        [self.settingsButton addTarget:self action:@selector(settingsAction) forControlEvents:UIControlEventTouchUpInside];
+        
+        [retVal insertObject:self.settingsButton atIndex:0];
+    }  
+    return retVal;
+}
+- (NSMutableArray *)visibleButtons {
+    NSMutableArray *retVal = %orig.mutableCopy;
+    [self setLeadingPadding:+10];
+    
+    if (self.settingsButton) {
+        [self.settingsButton removeFromSuperview];
+        [self addSubview:self.settingsButton];
+        [retVal insertObject:self.settingsButton atIndex:0];
+    } 
+    return retVal;
+}
+%new;
+- (void)settingsAction {
+    UIViewController *settingsViewController = [[[YTSettingsViewController alloc] init] autorelease];
+    [[[UIApplication sharedApplication] keyWindow].rootViewController presentViewController:settingsViewController animated:YES completion:nil];
+}
+%end
+
 // uYou AdBlock Workaround LITE (This Version will only remove ads from Videos/Shorts!) - @PoomSmart
 %group uYouAdBlockingWorkaroundLite
 %hook YTHotConfig
