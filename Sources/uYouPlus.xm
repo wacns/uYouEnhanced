@@ -1379,7 +1379,7 @@ static int contrastMode() {
 // Hide the (Connect / Share / Remix / Thanks / Download / Clip / Save / Report) Buttons under the Video Player - 17.33.2 and up - @PoomSmart (inspired by @arichornlover) - METHOD BROKE Server-Side on May 14th 2024
 static BOOL findCell(ASNodeController *nodeController, NSArray <NSString *> *identifiers) {
     for (id child in [nodeController children]) {
-        if ([child isKindOfClass:%c(ELMNodeController)]) {
+        if ([child isKindOfClass:NSClassFromString(@"ELMNodeController")]) {
             NSArray <ELMComponent *> *elmChildren = [(ELMNodeController *)child children];
             for (ELMComponent *elmChild in elmChildren) {
                 for (NSString *identifier in identifiers) {
@@ -1389,7 +1389,7 @@ static BOOL findCell(ASNodeController *nodeController, NSArray <NSString *> *ide
             }
         }
 
-        if ([child isKindOfClass:%c(ASNodeController)]) {
+        if ([child isKindOfClass:NSClassFromString(@"ASNodeController")]) {
             ASDisplayNode *childNode = ((ASNodeController *)child).node; // ELMContainerNode
             NSArray *yogaChildren = childNode.yogaChildren;
             for (ASDisplayNode *displayNode in yogaChildren) {
