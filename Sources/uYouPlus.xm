@@ -101,7 +101,7 @@ NSBundle *tweakBundle = uYouPlusBundle();
 %new;
 - (void)settingsAction {
     UIViewController *settingsViewController = [self _viewControllerForAncestor];
-    SettingsViewController *settingsVC = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    id settingsVC = [[%c(SettingsViewController) alloc] initWithStyle:UITableViewStyleGrouped];
     [settingsViewController presentViewController:settingsVC animated:YES completion:nil];
 }
 %end
