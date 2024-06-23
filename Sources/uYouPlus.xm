@@ -86,8 +86,9 @@ NSBundle *tweakBundle = uYouPlusBundle();
     NSMutableArray *retVal = %orig.mutableCopy;
     [self setLeadingPadding:+10];
     if (self.settingsButton) {
-        if ([self _viewControllerForAncestor] != nil && [[self _viewControllerForAncestor] respondsToSelector:@selector(getPivotIdentifier)]) {
-            NSString *pivotIdentifier = [[self _viewControllerForAncestor] getPivotIdentifier];
+        YTIPivotBarItemRenderer *currentPivot = [self _viewControllerForAncestor];
+        if (currentPivot && [currentPivot respondsToSelector:@selector(pivot_identifier)]) {
+            NSString *pivotIdentifier = [currentPivot pivot_identifier];
             if ([pivotIdentifier isEqualToString:@"FElibrary"]) { // Exclude Button from rendering in Library/You Tab
                 return retVal;
             }
