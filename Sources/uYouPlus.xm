@@ -86,9 +86,9 @@ NSBundle *tweakBundle = uYouPlusBundle();
     NSMutableArray *retVal = %orig.mutableCopy;
     [self setLeadingPadding:+10];
     if (self.settingsButton) {
-        if ([YTSessionRenderer respondsToSelector:@selector(sessionRenderer)]) {
-            YTSessionRenderer *sessionRenderer = [YTSessionRenderer sessionRenderer];
-            if ([sessionRenderer.pivots containsObject:@"FElibrary"]) { // Exclude Button from Library/You Tab (reason: it would be a duplicated button)
+        if ([self _viewControllerForAncestor] != nil && [[self _viewControllerForAncestor] respondsToSelector:@selector(getPivotIdentifier)]) {
+            NSString *pivotIdentifier = [[self _viewControllerForAncestor] getPivotIdentifier];
+            if ([pivotIdentifier isEqualToString:@"FElibrary"]) { // Exclude Button from rendering in Library/You Tab
                 return retVal;
             }
         }
@@ -102,7 +102,7 @@ NSBundle *tweakBundle = uYouPlusBundle();
 - (void)settingsAction {
     UIViewController *settingsViewController = [self _viewControllerForAncestor];
     SettingsViewController *settingsVC = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    [settingsViewController presentViewController:settingsVC animated:YES completion:nil]
+    [settingsViewController presentViewController:settingsVC animated:YES completion:nil];
 }
 %end
 
