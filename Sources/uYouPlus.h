@@ -82,6 +82,11 @@
 - (CABasicAnimation *)uYouEnhancedGetBlankColorAnimation;
 @end
 
+// Pivot Bar stuff - @arichornlover
+@interface YTIPivotBarItemRenderer (uYouEnhanced)
+- (NSString *)pivot_identifier;
+@end
+
 // Hide Home Tab - @bhackel
 @interface YTPivotBarItemViewAccessibilityControl : UIControl
 @end
