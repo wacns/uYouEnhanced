@@ -159,12 +159,14 @@ static BOOL showNativeShareSheet(NSString *serializedShareEntity) {
 - (BOOL)handleCommand:(id)command entry:(id)_entry fromView:(id)_fromView sender:(id)_sender completionBlock:(id)_completionBlock {
     GPBExtensionDescriptor *shareEntityEndpointDescriptor = [%c(YTIShareEntityEndpoint) shareEntityEndpoint];
     if (![command hasExtension:shareEntityEndpointDescriptor])
+        return %orig; 
+    YTIShareEntityEndpoint *shareEntityEndpoint = [command getExtension:shareEntityEndpointDescriptor]; 
+    if(!shareEntityEndpoint || !shareEntityEndpoint.hasSerializedShareEntity || !shareEntityEndpoint.serializedShareEntity) {
         return %orig;
-    YTIShareEntityEndpoint *shareEntityEndpoint = [command getExtension:shareEntityEndpointDescriptor];
-    if(!shareEntityEndpoint.hasSerializedShareEntity)
+    } 
+    if (!showNativeShareSheet(shareEntityEndpoint.serializedShareEntity)) {
         return %orig;
-    if (!showNativeShareSheet(shareEntityEndpoint.serializedShareEntity))
-        return %orig;
+    }
     return TRUE;
 }
 %end
