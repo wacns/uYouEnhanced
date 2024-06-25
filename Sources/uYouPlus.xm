@@ -109,20 +109,16 @@ NSBundle *tweakBundle = uYouPlusBundle();
 }
 %new;
 - (void)settingsAction {
-    Class YTNavigationControllerClass = %c(YTNavigationController);
-    YTNavigationController *navigationController = [YTNavigationControllerClass sharedNavigationController];
+    Class YTApplicationSettingsEndpointRootClass = NSClassFromString(@"YTIApplicationSettingsEndpointRoot");
+    id applicationSettingsEndpoint = [%c(YTApplicationSettingsEndpointRootClass) alloc];
+    [applicationSettingsEndpoint setHack:YES];
     
-    Class YTApplicationSettingsEndpointRootClass = %c(YTApplicationSettingsEndpointRoot);
-    id applicationSettingsEndpoint = [%c(YTApplicationSettingsEndpointRoot) applicationSettingsEndpoint];
+    Class YTICommandClass = NSClassFromString(@"YTICommand");
+    id command = [%c(YTICommandClass) alloc];
+    [command setEndpoint:applicationSettingsEndpoint];
     
-    Class YTIButtonRendererClass = %c(YTIButtonRenderer);
-    id buttonRenderer = [%c(YTIButtonRenderer) new];
-    
-    [buttonRenderer setIconType:SETTINGS];
-    [buttonRenderer setNavigationEndpoint:applicationSettingsEndpoint];
-    [buttonRenderer setAccessibilityLabel:@"Settings"];
-    
-    [navigationController handleButtonRendererAction:buttonRenderer];
+    UIViewController *settingsViewController = [self _viewControllerForAncestor];
+    [settingsViewController presentViewController:command animated:YES completion:nil];
 }
 %end
 
