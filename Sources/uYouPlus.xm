@@ -64,6 +64,14 @@ NSBundle *tweakBundle = uYouPlusBundle();
 %hook YTRightNavigationButtons
 %property (retain, nonatomic) YTQTMButton *settingsButton;
 - (NSMutableArray *)buttons {
+	NSString *tweakBundlePath = [[NSBundle mainBundle] pathForResource:@"uYouPlus" ofType:@"bundle"];
+    NSString *buttonSettingsPath;
+    if (tweakBundlePath) {
+        NSBundle *tweakBundle = [NSBundle bundleWithPath:tweakBundlePath];
+        buttonSettingsPath = [tweakBundle pathForResource:@"yt_outline_gear_24pt" ofType:@"png"];
+    } else {
+        buttonSettingsPath = ROOT_PATH_NS(@"/Library/Application Support/uYouPlus.bundle/UI/yt_outline_gear_24pt.png");
+    }
     Class YTVersionUtilsClass = %c(YTVersionUtils);
     NSString *appVersion = [YTVersionUtilsClass performSelector:@selector(appVersion)];
     NSComparisonResult versionCheck = [appVersion compare:@"18.35.4" options:NSNumericSearch];
@@ -101,9 +109,20 @@ NSBundle *tweakBundle = uYouPlusBundle();
 }
 %new;
 - (void)settingsAction {
-    UIViewController *settingsViewController = [self _viewControllerForAncestor];
-    id settingsVC = [[%c(SettingsViewController) alloc] initWithStyle:UITableViewStyleGrouped];
-    [settingsViewController presentViewController:settingsVC animated:YES completion:nil];
+    Class YTNavigationControllerClass = %c(YTNavigationController);
+    YTNavigationController *navigationController = [YTNavigationControllerClass sharedNavigationController];
+    
+    Class YTApplicationSettingsEndpointRootClass = %c(YTApplicationSettingsEndpointRoot);
+    id applicationSettingsEndpoint = [%c(YTApplicationSettingsEndpointRoot) applicationSettingsEndpoint];
+    
+    Class YTIButtonRendererClass = %c(YTIButtonRenderer);
+    id buttonRenderer = [%c(YTIButtonRenderer) new];
+    
+    [buttonRenderer setIconType:SETTINGS];
+    [buttonRenderer setNavigationEndpoint:applicationSettingsEndpoint];
+    [buttonRenderer setAccessibilityLabel:@"Settings"];
+    
+    [navigationController handleButtonRendererAction:buttonRenderer];
 }
 %end
 
