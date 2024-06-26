@@ -148,13 +148,30 @@ static BOOL showNativeShareSheet(NSString *serializedShareEntity) {
 
 /* -------------------- iPad Layout -------------------- */
 
+/*
 %hook YTShareRequestViewController
 - (id)initWithService:(id)_service parentResponder:(id)_parentResponder {
     // disable the default share sheet behavior and force the app to call [YTAccountScopedCommandRouter handleCommand]
     return NULL;
 }
 %end
+*/
 
+%hook YTAccountScopedCommandRouter
+- (BOOL)handleCommand:(id)command entry:(id)_entry fromView:(id)_fromView sender:(id)_sender completionBlock:(id)_completionBlock {
+    GPBExtensionDescriptor *shareEntityEndpointDescriptor = [%c(YTIShareEntityEndpoint) shareEntityEndpoint];
+    if (![command hasExtension:shareEntityEndpointDescriptor])
+        return %orig;
+    YTIShareEntityEndpoint *shareEntityEndpoint = [command getExtension:shareEntityEndpointDescriptor];
+    if(!shareEntityEndpoint.hasSerializedShareEntity)
+        return %orig;
+    if (!showNativeShareSheet(shareEntityEndpoint.serializedShareEntity))
+        return %orig;
+    return TRUE;
+}
+%end
+
+/* EXPERIMENTAL
 %hook YTAccountScopedCommandRouter
 - (BOOL)handleCommand:(id)command entry:(id)_entry fromView:(id)_fromView sender:(id)_sender completionBlock:(id)_completionBlock {
     GPBExtensionDescriptor *shareEntityEndpointDescriptor = [%c(YTIShareEntityEndpoint) shareEntityEndpoint];
@@ -170,7 +187,7 @@ static BOOL showNativeShareSheet(NSString *serializedShareEntity) {
     return TRUE;
 }
 %end
-
+*/
 
 /* ------------------- iPhone Layout ------------------- */
 
