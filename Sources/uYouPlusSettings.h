@@ -1,4 +1,4 @@
-// #import <YouTubeHeader/YTSettingsViewController.h>
+#import <YouTubeHeader/YTSettingsViewController.h>
 #import <YouTubeHeader/YTSearchableSettingsViewController.h>
 #import <YouTubeHeader/YTSettingsSectionItem.h>
 #import <YouTubeHeader/YTSettingsSectionItemManager.h>
