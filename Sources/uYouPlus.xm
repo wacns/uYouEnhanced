@@ -100,9 +100,10 @@ NSBundle *tweakBundle = uYouPlusBundle();
 }
 %new;
 - (void)settingsAction {
-    YTSettingsViewController *settingsVC = [YTSettingsViewController new];
+    UIViewController *settingsVC = [UIViewController new];
+    settingsVC.view.backgroundColor = [UIColor whiteColor];
     UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
-    [rootVC.navigationController pushViewController:settingsVC animated:YES];
+    [rootVC presentViewController:settingsVC animated:YES completion:nil];
 }
 %end
 
