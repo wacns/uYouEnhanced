@@ -100,13 +100,9 @@ NSBundle *tweakBundle = uYouPlusBundle();
 }
 %new;
 - (void)settingsAction {  
-    UIViewController *settingsViewController = [self _viewControllerForAncestor];
-    Class YTSettingsViewControllerClass = NSClassFromString(@"SettingsViewController");
-    id settingsVC = [[YTSettingsViewControllerClass alloc] initWithEndpoint:applicationSettingsEndpoint];
-    if ([settingsVC respondsToSelector:@selector(_parentResponder)]) {
-        id<YTResponder> parentResponder = [settingsVC performSelector:@selector(_parentResponder)];
-        [parentResponder triggerSettingsMenu];
-    }
+    YTSettingsViewController *settingsVC = [[YTSettingsViewController alloc] init];
+    id<YTResponder> parentResponder = [settingsVC _parentResponder];
+    [parentResponder triggerSettingsMenu];
 }
 %end
 
