@@ -64,7 +64,7 @@ NSBundle *tweakBundle = uYouPlusBundle();
 %hook YTRightNavigationButtons
 %property (retain, nonatomic) YTQTMButton *settingsButton;
 - (NSMutableArray *)buttons {
-	NSString *tweakBundlePath = [[NSBundle mainBundle] pathForResource:@"uYouPlus" ofType:@"bundle"];
+    NSString *tweakBundlePath = [[NSBundle mainBundle] pathForResource:@"uYouPlus" ofType:@"bundle"];
     NSString *buttonSettingsPath;
     if (tweakBundlePath) {
         NSBundle *tweakBundle = [NSBundle bundleWithPath:tweakBundlePath];
@@ -92,11 +92,10 @@ NSBundle *tweakBundle = uYouPlusBundle();
 }
 - (NSMutableArray *)visibleButtons {
     NSMutableArray *retVal = %orig.mutableCopy;
-        [self setLeadingPadding:+10];
-        [self.settingsButton removeFromSuperview];
-        [self addSubview:self.settingsButton];
-        [retVal insertObject:self.settingsButton atIndex:0];
-    } 
+    [self setLeadingPadding:+10];
+    [self.settingsButton removeFromSuperview];
+    [self addSubview:self.settingsButton];
+    [retVal insertObject:self.settingsButton atIndex:0];
     return retVal;
 }
 %new;
