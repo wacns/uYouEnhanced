@@ -10,7 +10,6 @@
 
 #import "uYouPlusThemes.h" // Hide "Buy Super Thanks" banner (_ASDisplayView)
 #import <YouTubeHeader/YTAppDelegate.h> // Activate FLEX
-#import <YouTubeHeader/YTSettingsViewController.h>
 #import <YouTubeHeader/YTIMenuConditionalServiceItemRenderer.h>
 #import <YouTubeHeader/YTIPlayerBarDecorationModel.h>
 #import <YouTubeHeader/YTPlayerBarRectangleDecorationView.h>
