@@ -99,10 +99,11 @@ NSBundle *tweakBundle = uYouPlusBundle();
     return retVal;
 }
 %new;
-- (void)settingsAction {  
+- (void)settingsAction {
     YTSettingsViewController *settingsVC = [[YTSettingsViewController alloc] init];
-    id<YTResponder> parentResponder = [settingsVC _parentResponder];
-    [parentResponder triggerSettingsMenu];
+    UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    UINavigationController *navController = (UINavigationController *)rootVC;
+    [navController pushViewController:settingsVC animated:YES];
 }
 %end
 
