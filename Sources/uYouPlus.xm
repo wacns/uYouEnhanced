@@ -92,15 +92,7 @@ NSBundle *tweakBundle = uYouPlusBundle();
 }
 - (NSMutableArray *)visibleButtons {
     NSMutableArray *retVal = %orig.mutableCopy;
-    [self setLeadingPadding:+10];
-    if (self.settingsButton) {
-        YTIPivotBarItemRenderer *currentPivot = [self _viewControllerForAncestor];
-        if (currentPivot && [currentPivot respondsToSelector:@selector(pivot_identifier)]) {
-            NSString *pivotIdentifier = [currentPivot pivot_identifier];
-            if ([pivotIdentifier isEqualToString:@"FElibrary"]) { // Exclude Button from rendering in Library/You Tab
-                return retVal;
-            }
-        }
+        [self setLeadingPadding:+10];
         [self.settingsButton removeFromSuperview];
         [self addSubview:self.settingsButton];
         [retVal insertObject:self.settingsButton atIndex:0];
@@ -110,15 +102,13 @@ NSBundle *tweakBundle = uYouPlusBundle();
 %new;
 - (void)settingsAction {
     Class YTApplicationSettingsEndpointRootClass = NSClassFromString(@"YTIApplicationSettingsEndpointRoot");
-    id applicationSettingsEndpoint = [%c(YTApplicationSettingsEndpointRootClass) alloc];
-    [applicationSettingsEndpoint setHack:YES];
-    
-    Class YTICommandClass = NSClassFromString(@"YTICommand");
-    id command = [%c(YTICommandClass) alloc];
-    [command setEndpoint:applicationSettingsEndpoint];
+    id applicationSettingsEndpoint = [%c(YTApplicationSettingsEndpointRootClass) applicationSettingsEndpoint];
     
     UIViewController *settingsViewController = [self _viewControllerForAncestor];
-    [settingsViewController presentViewController:command animated:YES completion:nil];
+    Class YTSettingsViewControllerClass = NSClassFromString(@"SettingsViewController");
+    id settingsVC = [[YTSettingsViewControllerClass alloc] initWithEndpoint:applicationSettingsEndpoint];
+    
+    [settingsViewController presentViewController:settingsVC animated:YES completion:nil];
 }
 %end
 
