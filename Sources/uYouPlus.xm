@@ -100,14 +100,13 @@ NSBundle *tweakBundle = uYouPlusBundle();
 }
 %new;
 - (void)settingsAction {
-    Class YTSettingsViewControllerClass = objc_getClass("YTSettingsViewController");
-    if (YTSettingsViewControllerClass) {
-        YTSettingsViewController *settingsVC = [[YTSettingsViewControllerClass alloc] init];
+    YTSettingsViewController *settingsVC = [(YTSettingsViewController *)[self settingsView] settingsView];
+    if (settingsVC) {
         UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
         UINavigationController *navController = (UINavigationController *)rootVC;
         [navController pushViewController:settingsVC animated:YES];
     } else {
-        NSLog(@"YTSettingsViewController class not found.");
+        NSLog(@"YTSettingsViewController settingsView not found.");
     }
 }
 %end
