@@ -105,6 +105,9 @@ NSBundle *tweakBundle = uYouPlusBundle();
     UINavigationController *navController = (UINavigationController *)rootVC;
     [navController pushViewController:settingsVC animated:YES];
 }
+- (id)settingsView {
+    return [YTSettingsViewController new];
+}
 %end
 
 // uYou AdBlock Workaround LITE (This Version will only remove ads from Videos/Shorts!) - @PoomSmart
