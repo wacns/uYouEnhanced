@@ -102,11 +102,8 @@ NSBundle *tweakBundle = uYouPlusBundle();
 - (void)settingsAction {
     YTSettingsViewController *settingsVC = [YTSettingsViewController new];
     UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
-    UINavigationController *navController = (UINavigationController *)rootVC;
-    [navController pushViewController:settingsVC animated:YES];
-}
-- (id)settingsView {
-    return [YTSettingsViewController new];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:settingsVC];
+    [rootVC presentViewController:navController animated:YES completion:nil];
 }
 %end
 
