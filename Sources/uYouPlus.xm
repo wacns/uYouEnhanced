@@ -100,14 +100,10 @@ NSBundle *tweakBundle = uYouPlusBundle();
 }
 %new;
 - (void)settingsAction {
-    YTSettingsViewController *settingsVC = [(YTSettingsViewController *)[self settingsView] settingsView];
-    if (settingsVC) {
-        UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
-        UINavigationController *navController = (UINavigationController *)rootVC;
-        [navController pushViewController:settingsVC animated:YES];
-    } else {
-        NSLog(@"YTSettingsViewController settingsView not found.");
-    }
+    YTSettingsViewController *settingsVC = [YTSettingsViewController new];
+    UIViewController *rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    UINavigationController *navController = (UINavigationController *)rootVC;
+    [navController pushViewController:settingsVC animated:YES];
 }
 %end
 
