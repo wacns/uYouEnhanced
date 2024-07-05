@@ -1629,8 +1629,6 @@ static int contrastMode() {
     // Load uYou first so its functions are available for hooks.
     // dlopen([[NSString stringWithFormat:@"%@/Frameworks/uYou.dylib", [[NSBundle mainBundle] bundlePath]] UTF8String], RTLD_LAZY);
 
-    cellDividerData = [NSData dataWithBytes:cellDividerDataBytes length:cellDividerDataBytesLength];
-
     %init;
     if (IS_ENABLED(@"hideYouTubeLogo_enabled")) {
         %init(gHideYouTubeLogo);
