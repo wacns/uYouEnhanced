@@ -27,6 +27,7 @@
 #import <YouTubeHeader/YTIPivotBarRenderer.h>
 #import <YouTubeHeader/YTIPivotBarSupportedRenderers.h>
 #import <YouTubeHeader/YTIPlayerBarDecorationModel.h>
+#import <YouTubeHeader/YTISectionListRenderer.h>
 #import <YouTubeHeader/YTIStringRun.h>
 #import <YouTubeHeader/YTMainAppVideoPlayerOverlayViewController.h>
 #import <YouTubeHeader/YTMainAppVideoPlayerOverlayView.h>
@@ -76,12 +77,10 @@
 // Hide Home Tab - @bhackel
 @interface YTPivotBarItemViewAccessibilityControl : UIControl
 @end
-@interface YTPivotBarItemView (uYouEnhanced)
-@property (nonatomic, strong) YTPivotBarItemViewAccessibilityControl *hitTarget;
-@end
+// YTMainAppVideoPlayerOverlayViewController Header has been moved to https://github.com/arichornloverALT/YouTubeHeader/blob/main/YTMainAppVideoPlayerOverlayViewController.h
 
 // YTTapToSeek - https://github.com/bhackel/YTTapToSeek
-// Header has been moved to https://github.com/arichornloverALT/YouTubeHeader/blob/main/YTMainAppVideoPlayerOverlayViewController.h
+// YTPivotBarItemView Header has been moved to https://github.com/arichornloverALT/YouTubeHeader/blob/main/YTPivotBarItemView.h
 
 // Enable Premium logo - @bhackel
 @interface YTITopbarLogoRenderer : NSObject
@@ -113,12 +112,7 @@
 - (BOOL)hasIcon;
 - (BOOL)hasThumbnail;
 @end
-@interface YTIItemSectionSupportedRenderers (uYouEnhanced)
-@property(readonly, nonatomic) YTICompactLinkRenderer *compactLinkRenderer;
-@property(readonly, nonatomic) YTICompactListItemRenderer *compactListItemRenderer;
-- (BOOL)hasCompactLinkRenderer;
-- (BOOL)hasCompactListItemRenderer;
-@end
+// YTIItemSectionSupportedRenderers Header has been moved to https://github.com/arichornloverALT/YouTubeHeader/blob/main/YTIItemSectionSupportedRenderers.h
 @interface YTAppCollectionViewController : YTInnerTubeCollectionViewController
 - (void)uYouEnhancedFakePremiumModel:(YTISectionListRenderer *)model;
 @end
@@ -127,7 +121,7 @@
 @end
 
 // Disable Pull to Full for landscape videos - @bhackel
-// Header has been moved to https://github.com/PoomSmart/YouTubeHeader/blob/main/YTWatchPullToFullController.h
+// YTWatchPullToFullController Header has been moved to https://github.com/PoomSmart/YouTubeHeader/blob/main/YTWatchPullToFullController.h
 
 // Fullscreen to the Right (uYouEnhanced Version) - @arichornlover
 @interface YTWatchViewController (uYouEnhanced)
@@ -193,11 +187,6 @@
 - (void)setDynamicButtons:(NSArray *)buttons;
 - (void)setLeadingPadding:(CGFloat)arg1;
 - (void)settingsAction;
-@end
-
-@interface YTISlimMetadataButtonSupportedRenderers : NSObject
-- (id)slimButton_buttonRenderer;
-- (id)slimMetadataButtonRenderer;
 @end
 
 // YTSpeed
