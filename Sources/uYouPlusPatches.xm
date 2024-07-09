@@ -148,6 +148,18 @@ static BOOL showNativeShareSheet(NSString *serializedShareEntity) {
 
 /* -------------------- iPad Layout -------------------- */
 
+%hook YTAccountScopedCommandResponderEvent
+- (void)send {
+    GPBExtensionDescriptor *shareEntityEndpointDescriptor = [%c(YTIShareEntityEndpoint) shareEntityEndpoint];
+    if (![self.command hasExtension:shareEntityEndpointDescriptor])
+        return %orig;
+    YTIShareEntityEndpoint *shareEntityEndpoint = [self.command getExtension:shareEntityEndpointDescriptor];
+    if (!showNativeShareSheet(shareEntityEndpoint.serializedShareEntity))
+        return %orig;
+}
+%end
+
+/* OLD
 %hook YTShareRequestViewController
 - (id)initWithService:(id)_service parentResponder:(id)_parentResponder {
     id result = %orig;
@@ -172,6 +184,7 @@ static BOOL showNativeShareSheet(NSString *serializedShareEntity) {
     return TRUE;
 }
 %end
+*/
 
 /* EXPERIMENTAL
 %hook YTAccountScopedCommandRouter
