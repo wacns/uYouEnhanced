@@ -9,6 +9,15 @@
 #import <YouTubeHeader/GPBUnknownFields.h>
 #import "uYouPlus.h"
 
+@interface DownloadManager : NSObject
+// Fix uYou not being able to download Audio files for YouTube v19.22+
+- (NSURL *)getAudioDownloadURL;
+- (void)startAudioDownload;
+- (void)downloadAudioWithoutConversion:(NSURL *)audioURL;
+- (NSString *)documentsDirectory;
+@end
+
+
 @interface PlayerManager : NSObject
 // Prevent uYou player bar from showing when not playing downloaded media
 - (float)progress;
