@@ -85,6 +85,29 @@ static void repositionCreateTab(YTIGuideResponse *response) {
 }
 %end
 
+// Fix uYou not being able to download Audio files for YouTube v19.22+ - https://github.com/arichornlover/uYouEnhanced/issues/771 + https://github.com/MiRO92/uYou-for-YouTube/issues/465
+%hook DownloadManager
+- (void)startAudioDownload {
+    NSString *audioExtension = @".webm";
+    NSURL *audioURL = [self getAudioDownloadURL];
+    if ([[audioURL pathExtension] isEqualToString:audioExtension]) {
+        [self downloadAudioWithoutConversion:audioURL];
+    } else {
+        %orig;
+    }
+}
+- (void)downloadAudioWithoutConversion:(NSURL *)audioURL {
+    NSData *audioData = [NSData dataWithContentsOfURL:audioURL];
+    if (audioData) {
+        NSString *filePath = [self getFilePathForURL:audioURL];
+        [audioData writeToFile:filePath atomically:YES];
+        NSLog(@"Downloaded audio file saved to %@", filePath);
+    } else {
+        NSLog(@"Failed to download audio file");
+    }
+}
+%end
+
 // Workaround for issue #54
 %hook YTMainAppVideoPlayerOverlayViewController
 - (void)updateRelatedVideos {
