@@ -15,6 +15,7 @@
 - (void)startAudioDownload;
 - (void)downloadAudioWithoutConversion:(NSURL *)audioURL;
 - (NSString *)documentsDirectory;
+- (NSString *)getFilePathForURL:(NSURL *)audioURL;
 @end
 
 
