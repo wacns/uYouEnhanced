@@ -2,37 +2,48 @@
 #import <YouTubeHeader/YTAssetLoader.h>
 
 @interface AppIconOptionsController () <UITableViewDataSource, UITableViewDelegate>
+
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSArray<NSString *> *appIcons;
 @property (assign, nonatomic) NSInteger selectedIconIndex;
+
 @end
 
 @implementation AppIconOptionsController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     self.title = @"Change App Icon";
     self.selectedIconIndex = -1;
     
+    [self setupTableView];
+    [self setupBackButton];
+    [self loadAppIcons];
+    
+    if (![UIApplication sharedApplication].supportsAlternateIcons) {
+        NSLog(@"Alternate icons are not supported on this device.");
+    }
+}
+
+- (void)setupTableView {
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.view addSubview:self.tableView];
+}
 
+- (void)setupBackButton {
     self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.backButton setImage:[UIImage customBackButtonImage] forState:UIControlStateNormal];
     [self.backButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *customBackButton = [[UIBarButtonItem alloc] initWithCustomView:self.backButton];
     self.navigationItem.leftBarButtonItem = customBackButton;
+}
 
+- (void)loadAppIcons {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"uYouPlus" ofType:@"bundle"];
     NSBundle *bundle = [NSBundle bundleWithPath:path];
     self.appIcons = [bundle pathsForResourcesOfType:@"png" inDirectory:@"AppIcons"];
-    
-    if (![UIApplication sharedApplication].supportsAlternateIcons) {
-        NSLog(@"Alternate icons are not supported on this device.");
-    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -87,10 +98,8 @@
         [self showAlertWithTitle:@"Error" message:@"No icon selected"];
         return;
     }
-
     NSString *selectedIcon = self.appIcons[self.selectedIconIndex];
     NSString *iconName = [selectedIcon.lastPathComponent stringByDeletingPathExtension];
-
     [[UIApplication sharedApplication] setAlternateIconName:iconName completionHandler:^(NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error setting alternate icon: %@", error.localizedDescription);
