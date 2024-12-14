@@ -125,7 +125,7 @@ jobs:
         id: prepare_youtube
         run: |
           echo "youtube_url=$YOUTUBE_URL"
-          wget "$YOUTUBE_URL" --quiet --verbose -O main/YouTube.ipa
+          wget "$YOUTUBE_URL" --verbose -O main/YouTube.ipa
           cd ${{ github.workspace }}/main
           mv YouTube.ipa YouTube.zip
           unzip -q YouTube.zip
