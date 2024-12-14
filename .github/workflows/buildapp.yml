@@ -117,16 +117,16 @@ jobs:
 
       - name: Hash YT ipa url
         run: |
-          URL_YT="$(jq -r '.inputs.decrypted_youtube_url' $GITHUB_EVENT_PATH)"
-          # echo ::add-mask::$URL_YT
+          URL_YT="$(jq -r '.inputs.decrypted_youtube_url' $GITHUB_EVENT_PATH | xargs)"
           echo $URL_YT
-          echo "URL_YT is set to: $URL_YT"  # Print URL_YT to debug
+          echo "URL_YT is set to: $URL_YT"
           echo URL_YT=$URL_YT >> $GITHUB_ENV
 
       - name: Prepare YouTube iPA
         id: prepare_youtube
         run: |
-          echo "YOUTUBE_URL is set to: $YOUTUBE_URL"  # Print YOUTUBE_URL to debug
+          YOUTUBE_URL="$(echo "$URL_YT" | xargs)"
+          echo "YOUTUBE_URL is set to: $YOUTUBE_URL"
           wget "$YOUTUBE_URL" --verbose -O main/YouTube.ipa
           cd ${{ github.workspace }}/main
           mv YouTube.ipa YouTube.zip
