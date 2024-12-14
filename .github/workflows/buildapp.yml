@@ -126,6 +126,7 @@ jobs:
         id: prepare_youtube
         run: |
           YOUTUBE_URL="$(echo "$URL_YT" | xargs)"
+          echo "URL_YT is set to: $URL_YT"
           echo "YOUTUBE_URL is set to: $YOUTUBE_URL"
           wget "$YOUTUBE_URL" --verbose -O main/YouTube.ipa
           cd ${{ github.workspace }}/main
